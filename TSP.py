@@ -24,8 +24,8 @@ def distance(p1,p2):
 def main():
     filename=sys.argv[1]
     with open(filename, "r") as f:
-        data = f.read()
-    CityCount = int(data[0])
+        data = f.readline()
+    CityCount = int(data)
     pos_str = []
     with open(filename, "r") as f:
         for line in f.readlines():
