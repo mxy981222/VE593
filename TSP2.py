@@ -19,12 +19,6 @@ def distance(p1,p2):
     dis=pow(x+y,0.5)
     return round(dis*1000)
 
-
-def distance_callback(from_index, to_index):#define the callback function
-    from_node=manager.IndexToNode(from_index)
-    to_node=manager.IndexToNode(to_index)
-    return dis_mat[from_node][to_node]
-
 def print_solution(manager, routing, solution):#print the solution
     print(solution.ObjectiveValue()/1000)#the optimal distance needed
     #start from city0
@@ -43,8 +37,8 @@ def print_solution(manager, routing, solution):#print the solution
 def main():
     filename=sys.argv[1]
     with open(filename, "r") as f:
-        data = f.read()
-    CityCount = int(data[0])
+        data = f.read；line()
+    CityCount = int(data)
     pos_str = []
     with open(filename, "r") as f:
         for line in f.readlines():
@@ -63,6 +57,12 @@ def main():
     depot = 0  # since the final route is a circle, we can start at any point
     manager = pywrapcp.RoutingIndexManager(CityCount, 1, depot)
     routing = pywrapcp.RoutingModel(manager)
+    
+    def distance_callback(from_index, to_index):#define the callback function
+        from_node=manager.IndexToNode(from_index)
+        to_node=manager.IndexToNode(to_index)
+        return dis_mat[from_node][to_node]
+    
     tran_callback = routing.RegisterTransitCallback(distance_callback)
     routing.SetArcCostEvaluatorOfAllVehicles(tran_callback)
     search_parameters = pywrapcp.DefaultRoutingSearchParameters()
